@@ -37,40 +37,16 @@ opipeline {
         stage('Deploy to Kubernetes') {
   steps {
     script {
-      writeFile file: 'demo/deployment.yaml', text: """
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ${KUBE_DEPLOYMENT}
-  namespace: ${KUBE_NAMESPACE}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: myapp
-  template:
-    metadata:
-      labels:
-        app: myapp
-    spec:
-      containers:
-      - name: myapp-container
-        image: ${IMAGE_NAME}
-        ports:
-        - containerPort: 80
-"""
+      sh 'cat demo/deployment.yaml'
+      sh 'pwd && ls -l && ls -l demo'
 
-      sh 'cat demo/deployment.yaml'  // To confirm file content
-                sh 'pwd && ls -l'
-
-      // Apply deployment with error output
-def status = sh(script: "cd demo && kubectl apply -f deployment.yaml", returnStatus: true)
+      // Apply deployment
+      def status = sh(script: "cd demo && kubectl apply -f deployment.yaml", returnStatus: true)
       if (status != 0) {
           error "kubectl apply failed with exit code ${status}"
       }
 
-
-      // Expose deployment similarly
+      // Expose deployment
       status = sh(script: "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=NodePort --port=80", returnStatus: true)
       if (status != 0) {
           error "kubectl expose failed with exit code ${status}"
