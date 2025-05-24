@@ -1,4 +1,4 @@
-pipeline {
+opipeline {
     agent any
 
     environment {
@@ -61,13 +61,13 @@ spec:
 """
 
       sh 'cat demo/deployment.yaml'  // To confirm file content
+                sh 'pwd && ls -l'
 
       // Apply deployment with error output
 def status = sh(script: "cd demo && kubectl apply -f deployment.yaml", returnStatus: true)
       if (status != 0) {
           error "kubectl apply failed with exit code ${status}"
       }
-        sh 'pwd && ls -l'
 
 
       // Expose deployment similarly
