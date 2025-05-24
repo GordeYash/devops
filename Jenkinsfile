@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "myapp:latest"
+        IMAGE_NAME = "yashgorde/myapp:latest"    // full repo name in Docker Hub
         KUBE_DEPLOYMENT = "myapp-deployment"
         KUBE_NAMESPACE = "default"
     }
@@ -10,15 +10,26 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-    git branch: 'main', url: 'https://github.com/GordeYash/devops.git'
-
+                git branch: 'main', url: 'https://github.com/GordeYash/devops.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_NAME}","demo")
+                    dockerImage = docker.build("${IMAGE_NAME}", "demo")
+                }
+            }
+        }
+
+        stage('Push Image to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'yashgorde', passwordVariable: 'dckr_pat_uaZ7WL9kyUE5KnmRpnfG6wrEdr0')]) {
+                    script {
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                        sh "docker push ${IMAGE_NAME}"
+                        sh "docker logout"
+                    }
                 }
             }
         }
@@ -48,7 +59,6 @@ spec:
         ports:
         - containerPort: 80
 """
-
                     sh "kubectl apply -f deployment.yaml"
                     sh "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=NodePort --port=80"
                 }
