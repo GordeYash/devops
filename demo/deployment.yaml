@@ -17,7 +17,7 @@ spec:
         - name: myapp
           image: yashgorde/myapp:latest
           ports:
-            - containerPort: 8080  # Change if your app runs on a different port
+            - containerPort: 8000  # Change if your app runs on a different port
 ---
 apiVersion: v1
 kind: Service
@@ -29,5 +29,5 @@ spec:
     app: myapp
   ports:
     - port: 80
-      targetPort: 8080  # Same as containerPort
+      targetPort: 8000  # Same as containerPort
       nodePort: 30080   # Optional: fixed external port
