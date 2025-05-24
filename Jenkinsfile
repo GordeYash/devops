@@ -59,7 +59,7 @@ spec:
         ports:
         - containerPort: 80
 """
-                    sh "kubectl apply -f deployment.yaml"
+                    sh "kubectl apply -f demo/deployment.yaml"
                     sh "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=NodePort --port=80"
                 }
             }
