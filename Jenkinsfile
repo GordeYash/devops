@@ -67,6 +67,8 @@ def status = sh(script: "cd demo && kubectl apply -f deployment.yaml", returnSta
       if (status != 0) {
           error "kubectl apply failed with exit code ${status}"
       }
+        sh 'pwd && ls -l'
+
 
       // Expose deployment similarly
       status = sh(script: "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=NodePort --port=80", returnStatus: true)
