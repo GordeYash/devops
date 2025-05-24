@@ -35,9 +35,9 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    writeFile file: 'demo/deployment.yaml', text: """
+  steps {
+    script {
+      writeFile file: 'demo/deployment.yaml', text: """
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -59,10 +59,23 @@ spec:
         ports:
         - containerPort: 80
 """
-                    sh "kubectl apply -f demo/deployment.yaml"
-                    sh "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=NodePort --port=80"
-                }
-            }
-        }
+
+      sh 'cat demo/deployment.yaml'  // To confirm file content
+
+      // Apply deployment with error output
+      def status = sh(script: "kubectl apply -f demo/deployment.yaml", returnStatus: true)
+      if (status != 0) {
+          error "kubectl apply failed with exit code ${status}"
+      }
+
+      // Expose deployment similarly
+      status = sh(script: "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=NodePort --port=80", returnStatus: true)
+      if (status != 0) {
+          error "kubectl expose failed with exit code ${status}"
+      }
+    }
+  }
+}
+
     }
 }
