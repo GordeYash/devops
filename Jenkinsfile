@@ -63,7 +63,7 @@ spec:
       sh 'cat demo/deployment.yaml'  // To confirm file content
 
       // Apply deployment with error output
-      def status = sh(script: "kubectl apply -f demo/deployment.yaml", returnStatus: true)
+def status = sh(script: "cd demo && kubectl apply -f deployment.yaml", returnStatus: true)
       if (status != 0) {
           error "kubectl apply failed with exit code ${status}"
       }
