@@ -37,7 +37,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    writeFile file: 'deployment.yaml', text: """
+                    writeFile file: 'demo/deployment.yaml', text: """
 apiVersion: apps/v1
 kind: Deployment
 metadata:
