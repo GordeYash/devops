@@ -47,7 +47,7 @@ pipeline {
       }
 
       // Expose deployment
-      status = sh(script: "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=NodePort --port=80", returnStatus: true)
+      status = sh(script: "kubectl expose deployment ${KUBE_DEPLOYMENT} --type=LoadBalancer --port=8000", returnStatus: true)
       if (status != 0) {
           error "kubectl expose failed with exit code ${status}"
       }
