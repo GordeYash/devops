@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "yashgorde/myapp:latest"    // full repo name in Docker Hub
+        IMAGE_NAME = "yashgorde/myapp:01"    // full repo name in Docker Hub
         KUBE_DEPLOYMENT = "myapp-deployment"
         KUBE_NAMESPACE = "default"
     }
