@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,7 +14,7 @@ spec:
     spec:
       containers:
         - name: myapp
-          image: yashgorde/myapp:latest
+          image: yashgorde/myapp:01
           ports:
             - containerPort: 8000  # Change if your app runs on a different port
 ---
