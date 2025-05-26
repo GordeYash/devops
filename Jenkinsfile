@@ -36,7 +36,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
   steps {
-      kubeconfig(caCertificate: '-----BEGIN CERTIFICATE-----
+      kubeconfig(caCertificate: '''-----BEGIN CERTIFICATE-----
 MIIDBjCCAe6gAwIBAgIBATANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5p
 a3ViZUNBMB4XDTI1MDQyMjE2NTE0N1oXDTM1MDQyMTE2NTE0N1owFTETMBEGA1UE
 AxMKbWluaWt1YmVDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMRa
@@ -55,7 +55,7 @@ fXX0qYfe8/xq/gkRkIJnA+CfSej10EMU6ssf5+nCzccr8+M7wM8jUXSCN1FuCfF3
 6vIQ+C6WYrT5bre/QLtuMFe6+U5/2fWyIu3TODxugFE7vWIR6Cc5LADNWaVCfczq
 D+TpGLgymlUU6w==
 -----END CERTIFICATE-----
-', credentialsId: 'minikube-jenkins-secret', serverUrl: 'https://192.168.49.2:8443') {
+''', credentialsId: 'minikube-jenkins-secret', serverUrl: 'https://192.168.49.2:8443') {
     // some block
            script {
       sh 'cat demo/deployment.yaml'
